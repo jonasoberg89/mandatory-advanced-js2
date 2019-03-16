@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Rater from 'react-rater'
+import { Helmet } from "react-helmet";
 import 'react-rater/lib/react-rater.css'
 
 class Add extends Component {
@@ -67,69 +68,74 @@ class Add extends Component {
         let rating = parseFloat(this.state.rating).toFixed(1);
 
         return (
-            <div className="container">
-                <h4 className="left">Add Movie</h4>
-                <div className="row center">
-                    <div className="col s12">
-                        <form className="col s12" onSubmit={this.handleSubmit}>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <input id="input_text"
-                                        minLength="1"
-                                        maxLength="40"
-                                        type="text" data-length="20"
-                                        value={this.state.movieValue}
-                                        onChange={this.handleChangeMovie} />
-                                    <label htmlFor="textarea1">Title</label>
+            <>
+                <Helmet>
+                    <title>Add</title>
+                </Helmet>
+                <div className="container">
+                    <h4 className="left">Add Movie</h4>
+                    <div className="row center">
+                        <div className="col s12">
+                            <form className="col s12" onSubmit={this.handleSubmit}>
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <input id="input_text"
+                                            minLength="1"
+                                            maxLength="40"
+                                            type="text" data-length="20"
+                                            value={this.state.movieValue}
+                                            onChange={this.handleChangeMovie} />
+                                        <label htmlFor="textarea1">Title</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <input id="input_text"
-                                        minLength="1"
-                                        maxLength="40"
-                                        type="text"
-                                        data-length="10"
-                                        value={this.state.directorValue}
-                                        onChange={this.handleChangeDirector} />
-                                    <label htmlFor="textarea1">Director</label>
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <input id="input_text"
+                                            minLength="1"
+                                            maxLength="40"
+                                            type="text"
+                                            data-length="10"
+                                            value={this.state.directorValue}
+                                            onChange={this.handleChangeDirector} />
+                                        <label htmlFor="textarea1">Director</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <textarea id="textarea2"
-                                        className="materialize-textarea"
-                                        minLength="1"
-                                        maxLength="300"
-                                        data-length="120"
-                                        value={this.state.descriptionValue}
-                                        onChange={this.handleChangeDescription} ></textarea >
-                                    <label htmlFor="textarea1">Description</label>
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <textarea id="textarea2"
+                                            className="materialize-textarea"
+                                            minLength="1"
+                                            maxLength="300"
+                                            data-length="120"
+                                            value={this.state.descriptionValue}
+                                            onChange={this.handleChangeDescription} ></textarea >
+                                        <label htmlFor="textarea1">Description</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <input className="rating" type="range" min="0" max="5" step="0.1" value={rating} onChange={this.handleRating} /><br />
-                                    <span className="ratingNum"><Rater total={5} interactive={false} rating={Number(rating)} /> ({this.state.rating})</span><br /><br />
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <input className="rating" type="range" min="0" max="5" step="0.1" value={rating} onChange={this.handleRating} /><br />
+                                        <span className="ratingNum"><Rater total={5} interactive={false} rating={Number(rating)} /> ({this.state.rating})</span><br /><br />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <span className="helper-text" data-error="wrong" data-success="right">{this.state.errortext}</span>
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <span className="helper-text" data-error="wrong" data-success="right">{this.state.errortext}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s6">
-                                    <a href=" " onClick={this.handleSubmit} className="waves-effect waves-light btn-small ">Add Movie</a>
-                                    <a href=" " onClick={(e) => { e.preventDefault(); this.props.history.push("/"); }} className="waves-effect waves-light btn-small right ">Cancel</a>
+                                <div className="row">
+                                    <div className="input-field col s6">
+                                        <a href=" " onClick={this.handleSubmit} className="waves-effect waves-light btn-small ">Add Movie</a>
+                                        <a href=" " onClick={(e) => { e.preventDefault(); this.props.history.push("/"); }} className="waves-effect waves-light btn-small right ">Cancel</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
 
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         )
 
     }

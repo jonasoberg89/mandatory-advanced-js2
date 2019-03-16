@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Rater from 'react-rater'
-// import 'react-rater/lib/react-rater.css'
+import { Helmet } from "react-helmet";
 
 class Edit extends Component {
     constructor(props) {
@@ -87,28 +87,27 @@ class Edit extends Component {
         e.preventDefault()
         fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + this.state.items.id, {
             method: 'PUT',
-            headers: {"Content-Type": "application/json",
+            headers: {
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(this.state.items),
         }).catch(error => {
             console.error(error)
 
         }).then((res) => {
-            if(res.status === 400) {
+            if (res.status === 400) {
                 this.setState({
                     errortext: "Every field has to be filled in"
                 })
             }
-            else{
+            else {
                 this.setState({
                     errortext: ""
                 })
                 this.props.history.push("/")
             }
-            
-        })
 
-            
+        })
     }
     render() {
         const data = this.state.items;
@@ -130,63 +129,68 @@ class Edit extends Component {
         }
         else {
             return (
-                <div className="container">
-                    <h4 className="">Edit Movie</h4>
-                    <div className="row col s12 center">
-                        <form className="col s12 ">
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <input id="input_text"
-                                        minLength="1"
-                                        maxLength="40"
-                                        type="text" data-length="20"
-                                        value={data.title}
-                                        onChange={this.handleChangeMovie} />
+                <>
+                    <Helmet>
+                        <title>Edit</title>
+                    </Helmet>
+                    <div className="container">
+                        <h4 className="">Edit Movie</h4>
+                        <div className="row col s12 center">
+                            <form className="col s12 ">
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <input id="input_text"
+                                            minLength="1"
+                                            maxLength="40"
+                                            type="text" data-length="20"
+                                            value={data.title}
+                                            onChange={this.handleChangeMovie} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <input id="input_text"
-                                        type="text"
-                                        minLength="1"
-                                        maxLength="40"
-                                        data-length="10"
-                                        value={data.director}
-                                        onChange={this.handleChangeDirector} />
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <input id="input_text"
+                                            type="text"
+                                            minLength="1"
+                                            maxLength="40"
+                                            data-length="10"
+                                            value={data.director}
+                                            onChange={this.handleChangeDirector} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <textarea id="textarea2"
-                                        className="materialize-textarea"
-                                        minLength="1"
-                                        maxLength="300"
-                                        autoFocus={true}
-                                        data-length="110"
-                                        value={data.description}
-                                        onChange={this.handleChangeDescription} ></textarea >
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <textarea id="textarea2"
+                                            className="materialize-textarea"
+                                            minLength="1"
+                                            maxLength="300"
+                                            autoFocus={true}
+                                            data-length="110"
+                                            value={data.description}
+                                            onChange={this.handleChangeDescription} ></textarea >
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <input className="rating" type="range" min="0" max="5" step="0.1" value={rating} onChange={this.handleRating} /><br />
-                                    <span className="ratingNum"><Rater total={5} interactive={false} rating={Number(rating)} /> ({rating})</span><br /><br />
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <input className="rating" type="range" min="0" max="5" step="0.1" value={rating} onChange={this.handleRating} /><br />
+                                        <span className="ratingNum"><Rater total={5} interactive={false} rating={Number(rating)} /> ({rating})</span><br /><br />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s8">
-                                    <span className="helper-text" data-error="wrong" data-success="right">{this.state.errortext}</span>
+                                <div className="row">
+                                    <div className="input-field col s8">
+                                        <span className="helper-text" data-error="wrong" data-success="right">{this.state.errortext}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="input-field col s6">
-                                    <a href=" " onClick={this.handleChange} className="waves-effect waves-light btn-small ">Save Changes</a>
-                                    <a href=" " className="waves-effect waves-light btn-small right " onClick={this.onDelete}>Delete</a>
+                                <div className="row">
+                                    <div className="input-field col s6">
+                                        <a href=" " onClick={this.handleChange} className="waves-effect waves-light btn-small ">Save Changes</a>
+                                        <a href=" " className="waves-effect waves-light btn-small right " onClick={this.onDelete}>Delete</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </>
             )
         }
     }

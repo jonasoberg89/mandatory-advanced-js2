@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import Rater from 'react-rater'
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom"
-import 'react-rater/lib/react-rater.css' 
+import 'react-rater/lib/react-rater.css'
 
 class Info extends Component {
-    constructor(props){
-      super(props);
-      this.state = {
-          items: [],
-          isLoaded:false,
-          movie:props.match.params.id
-      }
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: [],
+            isLoaded: false,
+            movie: props.match.params.id
+        }
     }
     componentDidMount() {
         let id = this.props.match.params.id;
@@ -29,29 +30,39 @@ class Info extends Component {
 
     }
     render() {
-    const movie = this.state.items
-    if (!this.state.isLoaded || this.state.items.length === 0) {
-        return (
-            <div className="container">
-                <h4 className="center">Loading...</h4>
-            </div>
-        )
-    } else {
-        return (
-            <div className="container">
-            <h4 className="center">Info</h4>
-                <div className="post card">
-                <p className="right info-edit"><Link to={"/Edit/"+movie.id}>Edit</Link></p>
-                    <div className="card-content ">
-                    <h4>{movie.title}</h4>
-                    <h6>Director: {movie.director}</h6>
-                    <p><Rater total={5} interactive={false} rating={Number(parseFloat(movie.rating)).toFixed(1)}/>({movie.rating})</p>
-                    <p>Description: {movie.description}</p>
+        const movie = this.state.items
+        if (!this.state.isLoaded || this.state.items.length === 0) {
+            return (
+                <>
+                    <Helmet>
+                        <title>Info</title>
+                    </Helmet>
+                    <div className="container">
+                        <h4 className="center">Loading...</h4>
                     </div>
-                </div>
-            </div>
+                </>
             )
+        } else {
+            return (
+                <>
+                    <Helmet>
+                        <title>Info</title>
+                    </Helmet>
+                    <div className="container">
+                        <h4 className="center">Info</h4>
+                        <div className="post card">
+                            <p className="right info-edit"><Link to={"/Edit/" + movie.id}>Edit</Link></p>
+                            <div className="card-content ">
+                                <h4>{movie.title}</h4>
+                                <h6>Director: {movie.director}</h6>
+                                <p><Rater total={5} interactive={false} rating={Number(parseFloat(movie.rating)).toFixed(1)} />({movie.rating})</p>
+                                <p>Description: {movie.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        }
     }
-}
 }
 export default Info

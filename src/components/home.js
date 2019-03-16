@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Rater from 'react-rater'
+import {Helmet} from "react-helmet";
 import 'react-rater/lib/react-rater.css' 
 import { Link } from "react-router-dom"
 class Home extends Component {
@@ -35,8 +36,6 @@ class Home extends Component {
                 || movie.director.toLowerCase().indexOf(this.state.search.toLowerCase())!==-1
             }
         )
-        
-           
         if (!this.state.isLoaded || this.state.data.length === 0){
             return(
                 <div className="container">
@@ -46,6 +45,10 @@ class Home extends Component {
         }
         else{
             return (
+                 <>
+                    <Helmet>
+                        <title>Home</title>
+                    </Helmet>
                 <div className="container">
                 <div className="row">
                                 <div className="input-field">
@@ -78,13 +81,13 @@ class Home extends Component {
                           </tr>
                       )
                   })}
-        
                         </tbody>
                     </table>
-        
                 </div>
+                </>
             )
         }
+    
     }
   }
   
