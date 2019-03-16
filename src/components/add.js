@@ -45,7 +45,6 @@ class Add extends Component {
                 director: this.state.directorValue,
                 rating: this.state.rating,
                 title: this.state.movieValue,
-
             })
         }).then((res) => {
             if (res.status === 201) {
@@ -55,15 +54,20 @@ class Add extends Component {
                     descriptionValue: "",
                     rating: 0,
                     errortext: ""
+
                 })
+                this.props.history.push("/")   
             }
             else if (res.status === 400) {
                 this.setState({
                     errortext: "Every field has to be filled in"
                 })
             }
-        })
-    }
+        }
+    )}
+
+
+
     render() {
         let rating = parseFloat(this.state.rating).toFixed(1);
 
