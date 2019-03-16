@@ -12,24 +12,21 @@ class Info extends Component {
           movie:props.match.params.id
       }
     }
-    componentDidMount(){
-      fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies")
-        .then(res => res.json())
-        .then(movies=>{
-        for (let movie of movies){
-        if(movie.id === this.state.movie){
-          this.setState({
-            isLoaded:true,
-            items:movie,
-            
-          })
-          console.log (this.state.items)
-        }}
-        })
-        
-        .catch(error=>{
-          console.error(error)
-        })
+    componentDidMount() {
+        let id = this.props.match.params.id;
+        fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id)
+            .then(res => res.json())
+            .then(movie => {
+                this.setState({
+                    isLoaded: true,
+                    items: movie,
+                })
+            }).catch(error => {
+                console.error(error)
+                this.setState({ error: true })
+            });
+
+
     }
     render() {
     const movie = this.state.items
