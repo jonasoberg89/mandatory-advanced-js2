@@ -56,7 +56,8 @@ class Info extends Component {
                                 <h4>{movie.title}</h4>
                                 <h6>Director: {movie.director}</h6>
                                 <p><Rater total={5} interactive={false} rating={Number(parseFloat(movie.rating)).toFixed(1)} />({movie.rating})</p>
-                                <p>Description: {movie.description}</p>
+                                <p>Description:</p>
+                                <p>{movie.description}</p>
                             </div>
                         </div>
                     </div>
