@@ -32,36 +32,31 @@ class Add extends Component {
     handleRating(e) {
         this.setState({ rating: e.target.value })
     }
- 
+
     handleSubmit(e) {
         this.source = axios.CancelToken.source();
         const data = {
             title: this.state.movieValue,
-            director:this.state.directorValue,
-            description:this.state.descriptionValue,
-            rating:this.state.rating,
+            director: this.state.directorValue,
+            description: this.state.descriptionValue,
+            rating: this.state.rating,
         }
         e.preventDefault();
-        axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies",data,{cancelToken:this.source.token})
-        .then((res) => {
-            if (res.status === 201) {
-                this.setState({
-                    movieValue: "",
-                    directorValue: "",
-                    descriptionValue: "",
-                    rating: 0,
-                    errortext: ""
-                })
-                this.props.history.push("/");
-                this.source.cancel();
-            }
-            else if (res.status === 400) {
-                this.setState({
+        axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies", data, { cancelToken: this.source.token })
+            .then(  
+                (res) => { 
+                    console.log (res)
+                    this.props.history.push("/")
+                    this.source.cancel();
+                 },
+                (error) => {   this.setState({
                     errortext: "Every field has to be filled in"
-                })
-            }
-        }
-    )}
+                     })
+                     console.log (error);
+             }
+            )
+            
+    }
     render() {
         let rating = parseFloat(this.state.rating).toFixed(1);
 

@@ -24,7 +24,6 @@ class Info extends Component {
                 })
             }).catch(error => {
                 console.error(error)
-                this.setState({ error: true })
             });
 
 

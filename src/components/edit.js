@@ -89,19 +89,18 @@ class Edit extends Component {
         e.preventDefault()
         let id = this.props.match.params.id;
         axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, this.state.items,{cancelToken:this.source.token}) 
-        .then((res) => {console.log(res)
-            if (res.status === 400) {
-                this.setState({
-                    errortext: "Every field has to be filled in"
-                })
-            }
-            else {
-                this.setState({
-                    errortext: ""
-                })
+        .then(  
+            (res) => { 
+                console.log (res)
                 this.props.history.push("/")
-            }
-        })
+                this.source.cancel();
+             },
+            (error) => {   this.setState({
+                errortext: "Every field has to be filled in"
+                 })
+                 console.log (error);
+         }
+        )
     }
     componentDidUpdate(){
         window.M.textareaAutoResize(this.textareaRef.current);

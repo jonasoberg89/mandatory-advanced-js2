@@ -17,15 +17,20 @@ class Home extends Component {
     componentDidMount(){
         this.source = axios.CancelToken.source();
         axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies",{cancelToken:this.source.token})
-        .then(movies=>{
-          this.setState({
-            isLoaded:true,
-            data:movies.data,
-          })
-        })
-        .catch(error=>{
-          console.error(error)
-        })
+        .then(  
+            (res) => { console.log(res);
+                this.setState({
+                    isLoaded:true,
+                    data:res.data,
+                })
+            },
+            (error) => {
+                console.log(error)
+            }
+            
+            
+        
+        )
     }
     componentWillUnmount(){
         this.source.cancel();
