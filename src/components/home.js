@@ -16,7 +16,7 @@ class Home extends Component {
     }
     componentDidMount(){
         this.source = axios.CancelToken.source();
-      axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies",{cancelToken:this.source.token})
+        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies",{cancelToken:this.source.token})
         .then(movies=>{
           this.setState({
             isLoaded:true,

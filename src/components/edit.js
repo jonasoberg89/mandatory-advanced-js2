@@ -20,6 +20,9 @@ class Edit extends Component {
         this.handleRating = this.handleRating.bind(this);
 
         this.textareaRef = React.createRef();
+        this.titleRef = React.createRef();
+        this.directorRef = React.createRef();
+
     }
     componentDidMount() {
         this.source = axios.CancelToken.source();
@@ -102,6 +105,8 @@ class Edit extends Component {
     }
     componentDidUpdate(){
         window.M.textareaAutoResize(this.textareaRef.current);
+        window.M.updateTextFields(this.titleRef.current);
+        window.M.updateTextFields(this.directorRef.current);
     }
     render() {
         const data = this.state.items;
@@ -135,10 +140,12 @@ class Edit extends Component {
                                     <div className="input-field col s8">
                                         <input id="input_text"
                                             minLength="1"
+                                            ref={this.titleRef}
                                             maxLength="40"
                                             type="text" data-length="20"
                                             value={data.title}
                                             onChange={this.handleChangeMovie} />
+                                            <label htmlFor="textarea1">Title</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -146,10 +153,12 @@ class Edit extends Component {
                                         <input id="input_text"
                                             type="text"
                                             minLength="1"
+                                            ref={this.directorRef}
                                             maxLength="40"
                                             data-length="10"
                                             value={data.director}
-                                            onChange={this.handleChangeDirector} />
+                                            onChange={this.handleChangeDirector}/>
+                                            <label htmlFor="textarea1">Director</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -162,6 +171,7 @@ class Edit extends Component {
                                             value={data.description}
                                             ref={this.textareaRef}
                                             onChange={this.handleChangeDescription} ></textarea >
+                                            <label htmlFor="textarea1">Description</label>
                                     </div>
                                 </div>
                                 <div className="row">
