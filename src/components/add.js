@@ -13,7 +13,6 @@ class Add extends Component {
             descriptionValue: "",
             rating: 0,
             errortext: "",
-
         }
         this.handleChangeMovie = this.handleChangeMovie.bind(this);
         this.handleChangeDirector = this.handleChangeDirector.bind(this);
@@ -33,9 +32,7 @@ class Add extends Component {
     handleRating(e) {
         this.setState({ rating: e.target.value })
     }
-    componentWillUnmount(){
-        this.source.cancel();
-    }
+ 
     handleSubmit(e) {
         this.source = axios.CancelToken.source();
         const data = {
@@ -55,7 +52,8 @@ class Add extends Component {
                     rating: 0,
                     errortext: ""
                 })
-                this.props.history.push("/")   
+                this.props.history.push("/");
+                this.source.cancel();
             }
             else if (res.status === 400) {
                 this.setState({

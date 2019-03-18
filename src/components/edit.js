@@ -80,7 +80,6 @@ class Edit extends Component {
         })
         .catch(error => {
             console.error(error)
-    
         })
     }
     handleChange(e) {
@@ -99,7 +98,6 @@ class Edit extends Component {
                 })
                 this.props.history.push("/")
             }
-
         })
     }
     componentDidUpdate(){
@@ -191,4 +189,5 @@ class Edit extends Component {
         }
     }
 }
+
 export default Edit
