@@ -43,19 +43,20 @@ class Add extends Component {
         }
         e.preventDefault();
         axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies", data, { cancelToken: this.source.token })
-            .then(  
-                (res) => { 
-                    console.log (res)
+            .then(
+                (res) => {
+                    console.log(res)
                     this.props.history.push("/")
                     this.source.cancel();
-                 },
-                (error) => {   this.setState({
-                    errortext: "Every field has to be filled in"
-                     })
-                     console.log (error);
-             }
+                },
+                (error) => {
+                    this.setState({
+                        errortext: "Every field has to be filled in"
+                    })
+                    console.log(error);
+                }
             )
-            
+
     }
     render() {
         let rating = parseFloat(this.state.rating).toFixed(1);

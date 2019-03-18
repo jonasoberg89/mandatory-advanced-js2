@@ -16,7 +16,7 @@ class Info extends Component {
     componentDidMount() {
         let id = this.props.match.params.id;
         this.source = axios.CancelToken.source();
-        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id,{cancelToken:this.source.token})
+        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, { cancelToken: this.source.token })
             .then(movie => {
                 this.setState({
                     isLoaded: true,
@@ -25,10 +25,8 @@ class Info extends Component {
             }).catch(error => {
                 console.error(error)
             });
-
-
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.source.cancel();
     }
     render() {

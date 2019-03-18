@@ -27,7 +27,7 @@ class Edit extends Component {
     componentDidMount() {
         this.source = axios.CancelToken.source();
         let id = this.props.match.params.id;
-        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id,{cancelToken:this.source.token})
+        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, { cancelToken: this.source.token })
             .then(movie => {
                 this.setState({
                     isLoaded: true,
@@ -39,7 +39,7 @@ class Edit extends Component {
                 this.setState({ error: true })
             });
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.source.cancel();
     }
     handleChangeMovie(e) {
@@ -77,32 +77,33 @@ class Edit extends Component {
     onDelete(e) {
         e.preventDefault();
         let id = this.props.match.params.id;
-         axios.delete("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id,{cancelToken:this.source.token}) 
-        .then(() => {
-            this.props.history.push("/");
-        })
-        .catch(error => {
-            console.error(error)
-        })
+        axios.delete("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, { cancelToken: this.source.token })
+            .then(() => {
+                this.props.history.push("/");
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
     handleChange(e) {
         e.preventDefault()
         let id = this.props.match.params.id;
-        axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, this.state.items,{cancelToken:this.source.token}) 
-        .then(  
-            (res) => { 
-                console.log (res)
-                this.props.history.push("/")
-                this.source.cancel();
-             },
-            (error) => {   this.setState({
-                errortext: "Every field has to be filled in"
-                 })
-                 console.log (error);
-         }
-        )
+        axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, this.state.items, { cancelToken: this.source.token })
+            .then(
+                (res) => {
+                    console.log(res)
+                    this.props.history.push("/")
+                    this.source.cancel();
+                },
+                (error) => {
+                    this.setState({
+                        errortext: "Every field has to be filled in"
+                    })
+                    console.log(error);
+                }
+            )
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         window.M.textareaAutoResize(this.textareaRef.current);
         window.M.updateTextFields(this.titleRef.current);
         window.M.updateTextFields(this.directorRef.current);
@@ -144,7 +145,7 @@ class Edit extends Component {
                                             type="text" data-length="20"
                                             value={data.title}
                                             onChange={this.handleChangeMovie} />
-                                            <label htmlFor="textarea1">Title</label>
+                                        <label htmlFor="textarea1">Title</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -156,8 +157,8 @@ class Edit extends Component {
                                             maxLength="40"
                                             data-length="10"
                                             value={data.director}
-                                            onChange={this.handleChangeDirector}/>
-                                            <label htmlFor="textarea1">Director</label>
+                                            onChange={this.handleChangeDirector} />
+                                        <label htmlFor="textarea1">Director</label>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -170,7 +171,7 @@ class Edit extends Component {
                                             value={data.description}
                                             ref={this.textareaRef}
                                             onChange={this.handleChangeDescription} ></textarea >
-                                            <label htmlFor="textarea1">Description</label>
+                                        <label htmlFor="textarea1">Description</label>
                                     </div>
                                 </div>
                                 <div className="row">
