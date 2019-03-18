@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Rater from 'react-rater'
+import axios from "axios";
 import { Helmet } from "react-helmet";
 
 class Edit extends Component {
@@ -9,10 +10,6 @@ class Edit extends Component {
             items: [],
             isLoaded: false,
             movie: props.match.params.id,
-            movieValue: "",
-            directorValue: "",
-            descriptionValue: "",
-            rating: 0,
             error: false,
         }
         this.onDelete = this.onDelete.bind(this);
@@ -21,23 +18,26 @@ class Edit extends Component {
         this.handleChangeDirector = this.handleChangeDirector.bind(this);
         this.handleChangeDescription = this.handleChangeDescription.bind(this);
         this.handleRating = this.handleRating.bind(this);
+
+        this.textareaRef = React.createRef();
     }
     componentDidMount() {
+        this.source = axios.CancelToken.source();
         let id = this.props.match.params.id;
-        fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id)
-            .then(res => res.json())
+        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id,{cancelToken:this.source.token})
             .then(movie => {
                 this.setState({
                     isLoaded: true,
-                    items: movie,
-
+                    items: movie.data,
                 })
-            }).catch(error => {
+            })
+            .catch(error => {
                 console.error(error)
                 this.setState({ error: true })
             });
-
-
+    }
+    componentWillUnmount(){
+        this.source.cancel();
     }
     handleChangeMovie(e) {
         this.setState({
@@ -72,29 +72,22 @@ class Edit extends Component {
         });
     }
     onDelete(e) {
-        e.preventDefault()
-        return fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + this.state.movie, {
-            method: 'DELETE'
-        }).then(response =>
-            response.json().then(json => {
-                return json;
-            }, this.props.history.push("/"))
-        ).catch(error => {
+        e.preventDefault();
+        let id = this.props.match.params.id;
+         axios.delete("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id,{cancelToken:this.source.token}) 
+        .then(() => {
+            this.props.history.push("/");
+        })
+        .catch(error => {
             console.error(error)
-        });
+    
+        })
     }
     handleChange(e) {
         e.preventDefault()
-        fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + this.state.items.id, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(this.state.items),
-        }).catch(error => {
-            console.error(error)
-
-        }).then((res) => {
+        let id = this.props.match.params.id;
+        axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, this.state.items,{cancelToken:this.source.token}) 
+        .then((res) => {console.log(res)
             if (res.status === 400) {
                 this.setState({
                     errortext: "Every field has to be filled in"
@@ -108,6 +101,9 @@ class Edit extends Component {
             }
 
         })
+    }
+    componentDidUpdate(){
+        window.M.textareaAutoResize(this.textareaRef.current);
     }
     render() {
         const data = this.state.items;
@@ -164,9 +160,9 @@ class Edit extends Component {
                                             className="materialize-textarea"
                                             minLength="1"
                                             maxLength="300"
-                                            autoFocus={true}
                                             data-length="110"
                                             value={data.description}
+                                            ref={this.textareaRef}
                                             onChange={this.handleChangeDescription} ></textarea >
                                     </div>
                                 </div>

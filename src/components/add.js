@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Rater from 'react-rater'
 import { Helmet } from "react-helmet";
 import 'react-rater/lib/react-rater.css'
+import axios from "axios";
 
 class Add extends Component {
     constructor(props) {
@@ -32,21 +33,20 @@ class Add extends Component {
     handleRating(e) {
         this.setState({ rating: e.target.value })
     }
+    componentWillUnmount(){
+        this.source.cancel();
+    }
     handleSubmit(e) {
+        this.source = axios.CancelToken.source();
+        const data = {
+            title: this.state.movieValue,
+            director:this.state.directorValue,
+            description:this.state.descriptionValue,
+            rating:this.state.rating,
+        }
         e.preventDefault();
-        fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                description: this.state.descriptionValue,
-                director: this.state.directorValue,
-                rating: this.state.rating,
-                title: this.state.movieValue,
-            })
-        }).then((res) => {
+        axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies",data,{cancelToken:this.source.token})
+        .then((res) => {
             if (res.status === 201) {
                 this.setState({
                     movieValue: "",
@@ -54,7 +54,6 @@ class Add extends Component {
                     descriptionValue: "",
                     rating: 0,
                     errortext: ""
-
                 })
                 this.props.history.push("/")   
             }
@@ -65,9 +64,6 @@ class Add extends Component {
             }
         }
     )}
-
-
-
     render() {
         let rating = parseFloat(this.state.rating).toFixed(1);
 
@@ -84,6 +80,7 @@ class Add extends Component {
                                 <div className="row">
                                     <div className="input-field col s8">
                                         <input id="input_text"
+                                            autoComplete="off"
                                             minLength="1"
                                             maxLength="40"
                                             type="text" data-length="20"
@@ -95,6 +92,7 @@ class Add extends Component {
                                 <div className="row">
                                     <div className="input-field col s8">
                                         <input id="input_text"
+                                            autoComplete="off"
                                             minLength="1"
                                             maxLength="40"
                                             type="text"
@@ -109,6 +107,7 @@ class Add extends Component {
                                         <textarea id="textarea2"
                                             className="materialize-textarea"
                                             minLength="1"
+                                            autoComplete="off"
                                             maxLength="300"
                                             data-length="120"
                                             value={this.state.descriptionValue}
@@ -134,8 +133,6 @@ class Add extends Component {
                                     </div>
                                 </div>
                             </form>
-
-
                         </div>
                     </div>
                 </div>

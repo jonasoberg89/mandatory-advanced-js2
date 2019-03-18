@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Rater from 'react-rater'
 import { Helmet } from "react-helmet";
+import axios from "axios";
 import { Link } from "react-router-dom"
 import 'react-rater/lib/react-rater.css'
-
 class Info extends Component {
     constructor(props) {
         super(props);
@@ -15,12 +15,12 @@ class Info extends Component {
     }
     componentDidMount() {
         let id = this.props.match.params.id;
-        fetch("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id)
-            .then(res => res.json())
+        this.source = axios.CancelToken.source();
+        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id,{cancelToken:this.source.token})
             .then(movie => {
                 this.setState({
                     isLoaded: true,
-                    items: movie,
+                    items: movie.data,
                 })
             }).catch(error => {
                 console.error(error)
@@ -28,6 +28,9 @@ class Info extends Component {
             });
 
 
+    }
+    componentWillUnmount(){
+        this.source.cancel();
     }
     render() {
         const movie = this.state.items
@@ -48,14 +51,14 @@ class Info extends Component {
                     <Helmet>
                         <title>Info</title>
                     </Helmet>
-                    <div className="container">
+                    <div className="container info">
                         <h4 className="center">Info</h4>
                         <div className="post card">
                             <p className="right info-edit"><Link to={"/Edit/" + movie.id}>Edit</Link></p>
                             <div className="card-content ">
                                 <h4>{movie.title}</h4>
                                 <h6>Director: {movie.director}</h6>
-                                <p><Rater total={5} interactive={false} rating={Number(parseFloat(movie.rating)).toFixed(1)} />({movie.rating})</p>
+                                <span><Rater total={5} interactive={false} rating={Number(parseFloat(movie.rating)).toFixed(1)} />({movie.rating})</span>
                                 <p>Description:</p>
                                 <p>{movie.description}</p>
                             </div>
