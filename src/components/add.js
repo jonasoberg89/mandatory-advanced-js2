@@ -115,7 +115,7 @@ class Add extends Component {
                                         <span className="ratingNum"><Rater total={5} interactive={false} rating={Number(rating)} /> ({this.state.rating})</span><br /><br />
                                     </div>
                                 </div>
-                                <div className="row">
+                                <div className="row errorText">
                                     <div className="input-field col s8">
                                         <span className="helper-text" data-error="wrong" data-success="right">{this.state.errortext}</span>
                                     </div>
