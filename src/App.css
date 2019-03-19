@@ -7,16 +7,13 @@ p{
 .waves-effect waves-light btn-small{
     margin: 10px;
 }
-.display-none{
-    display: none;
-}
 
 .info-edit a{
     color:black;
     margin-right:20px;
 }
 .home{
-    min-height: 500px; 
+   margin-bottom: 35px;
 }
 .page-footer{
     margin-top: 20px;
@@ -24,8 +21,8 @@ p{
 .searchField{
     margin-top: 30px;
 }
-.info{
-    min-height: 600px;
 
+.errorText{
+    margin-top: -20px;
 }
 

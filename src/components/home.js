@@ -19,7 +19,6 @@ class Home extends Component {
         axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies", { cancelToken: this.source.token })
             .then(
                 (res) => {
-                    console.log(res);
                     this.setState({
                         isLoaded: true,
                         data: res.data,
@@ -39,8 +38,8 @@ class Home extends Component {
     render() {
         let filterList = this.state.data.filter(
             (movie) => {
-                return movie.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
-                    || movie.director.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
+                return movie.title.toLowerCase().includes(this.state.search.toLowerCase())
+                    || movie.director.toLowerCase().includes(this.state.search.toLowerCase())
             }
         )
         if (!this.state.isLoaded) {
@@ -86,11 +85,12 @@ class Home extends Component {
                             </thead>
                             <tbody>
                                 {filterList.map(movie => {
+                                    let rating = parseFloat(movie.rating).toFixed(1);
                                     return (
                                         <tr key={movie.id}>
                                             <td><Link to={"/Info/" + movie.id} >{movie.title}</Link></td>
                                             <td>{movie.director}</td>
-                                            <td><Rater total={5} interactive={false} rating={(parseFloat(movie.rating)).toFixed(1)} />({movie.rating})</td>
+                                            <td><Rater total={5} interactive={false} rating={Number(rating)} />({movie.rating})</td>
                                             <td><Link to={"/Edit/" + movie.id}>Edit</Link></td>
                                         </tr>
                                     )

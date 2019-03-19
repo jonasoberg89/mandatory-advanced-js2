@@ -24,13 +24,15 @@ class Info extends Component {
                 })
             }).catch(error => {
                 console.error(error)
+                this.source.cancel();
             });
     }
     componentWillUnmount() {
         this.source.cancel();
     }
     render() {
-        const movie = this.state.items
+        const movie = this.state.items;
+        let rating = parseFloat(movie.rating).toFixed(1);
         if (!this.state.isLoaded || this.state.items.length === 0) {
             return (
                 <>
@@ -55,7 +57,7 @@ class Info extends Component {
                             <div className="card-content ">
                                 <h4>{movie.title}</h4>
                                 <h6>Director: {movie.director}</h6>
-                                <span><Rater total={5} interactive={false} rating={Number(parseFloat(movie.rating)).toFixed(1)} />({movie.rating})</span>
+                                <span><Rater total={5} interactive={false} rating={Number(rating)} />({movie.rating})</span>
                                 <p>Description:</p>
                                 <p>{movie.description}</p>
                             </div>

@@ -51,7 +51,7 @@ class Add extends Component {
                 },
                 (error) => {
                     this.setState({
-                        errortext: "Every field has to be filled in"
+                        errortext: "You have to fill in all the blank spaces"
                     })
                     console.log(error);
                 }

@@ -36,7 +36,7 @@ class Edit extends Component {
             })
             .catch(error => {
                 console.error(error)
-                this.setState({ error: true })
+                this.setState({ error: true})
             });
     }
     componentWillUnmount() {
@@ -91,13 +91,12 @@ class Edit extends Component {
         axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, this.state.items, { cancelToken: this.source.token })
             .then(
                 (res) => {
-                    console.log(res)
                     this.props.history.push("/")
                     this.source.cancel();
                 },
                 (error) => {
                     this.setState({
-                        errortext: "Every field has to be filled in"
+                        errortext: "You have to fill in all the blank spaces"
                     })
                     console.log(error);
                 }
@@ -112,7 +111,7 @@ class Edit extends Component {
         const data = this.state.items;
         let rating = parseFloat(data.rating).toFixed(1);
 
-        if (!this.state.isLoaded || this.state.items.length === 0) {
+        if (!this.state.isLoaded) {
             return (
                 <div className="container">
                     <h4 className="center">Loading...</h4>
@@ -177,10 +176,10 @@ class Edit extends Component {
                                 <div className="row">
                                     <div className="input-field col s8">
                                         <input className="rating" type="range" min="0" max="5" step="0.1" value={rating} onChange={this.handleRating} /><br />
-                                        <span className="ratingNum"><Rater total={5} interactive={false} rating={Number(rating)} /> ({rating})</span><br /><br />
+                                        <span className="ratingNum"><Rater total={5} interactive={false} rating={rating} /> ({rating})</span><br /><br />
                                     </div>
                                 </div>
-                                <div className="row">
+                                <div className="row errorText">
                                     <div className="input-field col s8">
                                         <span className="helper-text" data-error="wrong" data-success="right">{this.state.errortext}</span>
                                     </div>
